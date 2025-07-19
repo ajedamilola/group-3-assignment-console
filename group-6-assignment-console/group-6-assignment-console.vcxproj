@@ -24,6 +24,7 @@
     <ProjectGuid>{71e7c49f-840b-4529-b97a-e912f0947aae}</ProjectGuid>
     <RootNamespace>group6assignmentconsole</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>group-3-assignment-console</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -127,7 +128,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="group-6-assignment-console.cpp" />
+    <ClCompile Include="group-3-assignment-console.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h" />

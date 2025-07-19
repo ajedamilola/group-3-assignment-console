@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="group-6-assignment-console.cpp">
+    <ClCompile Include="group-3-assignment-console.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
