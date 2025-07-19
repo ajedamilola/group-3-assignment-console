@@ -1,4 +1,4 @@
-// group-6-assignment-console.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// group-6-assignment-console.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
@@ -6,6 +6,7 @@
 #include "Item.h"
 #include <vector>
 #include <limits> 
+#include <cstdlib>
 
 using namespace std;
 
@@ -30,10 +31,18 @@ void print(string message) {
 	cout << message << "\n";
 }
 void printReceipt(const Shop& shop, const vector<InvoiceItem>& items) {
-	cout << "\n\n================== RECEIPT ==================\n";
-	cout << "Store Name: " << shop.getName() << "\n";
-	cout << "Address: " << shop.getAddress() << "\n";
-	cout << "Phone: " << shop.getPhone() << "\n";
+	//Clearing the console. but OS agnostic
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
+
+	system("cls");
+	cout << "======================= RECEIPT =======================\n";
+	cout << "=================" << shop.name << "================\n";
+	cout << shop.address << "\n";
+	cout << "Call us on: " << shop.phone << "\n";
 	cout << "=============================================\n";
 
 	float total = 0;
@@ -46,16 +55,20 @@ void printReceipt(const Shop& shop, const vector<InvoiceItem>& items) {
 			cout << " (" << item.description << ")";
 		}
 		cout << "\n";
-		cout << "   Price: " << item.price << " x " << item.getQty() << " = " << itemTotal << "\n";
+		cout << "   Price: #" << item.price << " x " << item.getQty() << " = #" << itemTotal << "\n";
 
 		total += itemTotal;
 	}
 
 	cout << "=============================================\n";
-	cout << "TOTAL: " << total << "\n";
+	cout << "TOTAL: #" << total << "\n";
 	cout << "=============================================\n";
 	cout << "     Thank you for shopping with us!\n";
 	cout << "=============================================\n";
+
+	//prevents the console window from closing
+	string buffer;
+	cin >> buffer;
 }
 
 int main()
@@ -98,8 +111,8 @@ int main()
 		print("\n=====Adding A new Store Item=====");
 		insertValue("What is the name of the current product: ", name);
 		insertValue("How much does it cost? ", price);
-		insertValue("Extra notes(optional): ", descrption, true);
 		insertValue("How many is the customer buying? ", qty);
+		insertValue("Extra notes(optional): ", descrption, true);
 
 		if (name.empty() || price == NULL || qty == NULL) {
 			print("======Error: Incomplete details Please Kindly Fill in all required details to proceed======\n");
@@ -117,11 +130,11 @@ int main()
 		items.push_back(newItem);
 
 		//Asking for the next course of action and possibly restart the loop
-		insertValue("\nWhat action do you want to take? add, print or exit: ", action, true);
+		insertValue("\nWhat action do you want to take? add, print or exit: ", action);
 	}
 
 	if (action == "print") {
-    printReceipt(shop, items);
+		printReceipt(shop, items);
 	}
 
 
