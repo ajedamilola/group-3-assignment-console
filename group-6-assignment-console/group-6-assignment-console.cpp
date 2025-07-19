@@ -4,19 +4,76 @@
 #include <iostream>
 #include "Shop.h"
 #include "Item.h"
+#include <vector>
+
+using namespace std;
+
+//Insert value is a overloaded function
+void insertValue(string message, string& value) {
+	cout << message;
+	cin >> value;
+}
+void insertValue(string message, float& value) {
+	cout << message;
+	cin >> value;
+}
+void insertValue(string message, int& value) {
+	cout << message;
+	cin >> value;
+}
+
+void print(string message) {
+	cout << message << "\n";
+}
 
 int main()
 {
-    Shop shop;
-    shop.setDetails("Dammy Shop", "22, LASU Street", "09161689303");
+	Shop shop = Shop();
 
-    StoreItem newStoreItem = StoreItem("Five Alive","This is a five alive ohh",200);
-    newStoreItem.setQty(20);
-    cout << newStoreItem.getQty();
-    
-    //This is Just a test
-    cout << "Shop Name:"  << shop.name << "\nAddress:" << shop.address << "\nPhone:" << shop.phone;
+	print("============Welcome To our Reciept Generator=========");
+	print("We will start with getting the store details");
+	string storename,address,phone;
+	insertValue("Type in the store name: ",storename);
+	insertValue("Type in Store address: ", address);
+	insertValue("Type in Phone Number: ", phone);
+
+	shop.setDetails(storename, address, phone);
+
+	//Main Logic of adding items
+	vector<InvoiceItem> items = {};
+
+	string action = "add";
+	insertValue("\n\nWhat action do you want to take? add, print or exit: ", action);
+
+	while (action=="add")
+	{
+		string name, descrption;
+		float price;
+		int qty;
+
+		print("\n=====Adding A new Store Item=====");
+		insertValue("What is the name of the current product: ", name);
+		insertValue("How much does it cost? ", price);
+		insertValue("Extra notes: ", descrption);
+		insertValue("How many is the customer buying? ", qty);
+		InvoiceItem newItem = InvoiceItem();
+		newItem.name = name;
+		newItem.price = price;
+		newItem.description = descrption;
+		newItem.setQty(qty);
+
+		items.push_back(newItem);
+		insertValue("What action do you want to take? add, print or exit", action);
+	}
+
+	if (action == "print") {
+
+	}
+
+
 }
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
