@@ -29,6 +29,34 @@ void insertValue(string message, int& value) {
 void print(string message) {
 	cout << message << "\n";
 }
+void printReceipt(const Shop& shop, const vector<InvoiceItem>& items) {
+	cout << "\n\n================== RECEIPT ==================\n";
+	cout << "Store Name: " << shop.getName() << "\n";
+	cout << "Address: " << shop.getAddress() << "\n";
+	cout << "Phone: " << shop.getPhone() << "\n";
+	cout << "=============================================\n";
+
+	float total = 0;
+	for (int i = 0; i < items.size(); ++i) {
+		const InvoiceItem& item = items[i];
+		float itemTotal = item.price * item.getQty();
+
+		cout << i + 1 << ". " << item.name;
+		if (!item.description.empty()) {
+			cout << " (" << item.description << ")";
+		}
+		cout << "\n";
+		cout << "   Price: " << item.price << " x " << item.getQty() << " = " << itemTotal << "\n";
+
+		total += itemTotal;
+	}
+
+	cout << "=============================================\n";
+	cout << "TOTAL: " << total << "\n";
+	cout << "=============================================\n";
+	cout << "     Thank you for shopping with us!\n";
+	cout << "=============================================\n";
+}
 
 int main()
 {
@@ -93,7 +121,7 @@ int main()
 	}
 
 	if (action == "print") {
-		// handle the printing
+    printReceipt(shop, items);
 	}
 
 
