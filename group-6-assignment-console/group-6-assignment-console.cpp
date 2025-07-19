@@ -5,13 +5,17 @@
 #include "Shop.h"
 #include "Item.h"
 #include <vector>
+#include <limits> 
 
 using namespace std;
 
-//Insert value is a overloaded function
-void insertValue(string message, string& value) {
+//Insert value is a overloaded function thwse are helper functions 
+void insertValue(string message, string& value, bool succeedsNumericValue = false) {
 	cout << message;
-	cin >> value;
+	if (succeedsNumericValue) {
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
+	getline(cin, value);
 }
 void insertValue(string message, float& value) {
 	cout << message;
@@ -28,60 +32,69 @@ void print(string message) {
 
 int main()
 {
+	//creating our shop
 	Shop shop = Shop();
 
-	print("============Welcome To our Reciept Generator=========");
+	print("===============Welcome To our Reciept Generator==============");
 	print("We will start with getting the store details");
+
+	//Getting the store details from the user
 	string storename,address,phone;
 	insertValue("Type in the store name: ",storename);
 	insertValue("Type in Store address: ", address);
 	insertValue("Type in Phone Number: ", phone);
 
+	if (storename.empty()) {
+		print("========Error!: Incomplete details Please Kindly Fill in all required details to proceed=========\n");
+		quick_exit(1);
+	}
+
+	//Saving it to our shop details
 	shop.setDetails(storename, address, phone);
 
-	//Main Logic of adding items
+	//Our items vector this case we are using a 1D vector (dynamic array)
 	vector<InvoiceItem> items = {};
 
+	//Our primer to kick off the main event loop
 	string action = "add";
 	insertValue("\n\nWhat action do you want to take? add, print or exit: ", action);
 
 	while (action=="add")
 	{
+		//initialize our buffer variables
 		string name, descrption;
 		float price;
 		int qty;
 
+		//Colection of data from the stdin
 		print("\n=====Adding A new Store Item=====");
 		insertValue("What is the name of the current product: ", name);
 		insertValue("How much does it cost? ", price);
-		insertValue("Extra notes: ", descrption);
+		insertValue("Extra notes(optional): ", descrption, true);
 		insertValue("How many is the customer buying? ", qty);
+
+		if (name.empty() || price == NULL || qty == NULL) {
+			print("======Error: Incomplete details Please Kindly Fill in all required details to proceed======\n");
+			continue;
+		}
+
+		//Creating the object and assigning properties
 		InvoiceItem newItem = InvoiceItem();
 		newItem.name = name;
 		newItem.price = price;
 		newItem.description = descrption;
 		newItem.setQty(qty);
 
+		// inserting into our list
 		items.push_back(newItem);
-		insertValue("What action do you want to take? add, print or exit", action);
+
+		//Asking for the next course of action and possibly restart the loop
+		insertValue("\nWhat action do you want to take? add, print or exit: ", action, true);
 	}
 
 	if (action == "print") {
-
+		// handle the printing
 	}
 
 
 }
-
-
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
