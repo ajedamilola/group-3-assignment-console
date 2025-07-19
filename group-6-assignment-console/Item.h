@@ -38,16 +38,24 @@ private:
 //This two items classes are children of the Item class they are in Item
 class StoreItem : public Item {
 public:
-	string key; //we will use thos to search for it in a database
-	StoreItem(string key, string name, string description, float price) {
-		this->name = name;
-		this->description = description;
-		this->price = price;
-	}
+    std::string key;
+    StoreItem(std::string key, std::string name, std::string description, float price) {
+        this->key = key;
+        this->name = name;
+        this->description = description;
+        this->price = price;
+    }
+    // Constructor for three arguments
+    StoreItem(std::string name, std::string description, float price) {
+        this->name = name;
+        this->description = description;
+        this->price = price;
+        this->key = ""; // Default empty key
+    }
 
-	void setKey(string key) {
-		this->key = key;
-	}
+    void setKey(std::string key) {
+        this->key = key;
+    }
 };
 
 class InvoiceItem : public Item {
@@ -55,5 +63,5 @@ public:
 	bool affectInventory;
 	float discountPercentage;
 	InvoiceItem() {}
-	static InvoiceItem createFromStoreItem(string key) {} // search the database for 
+	static InvoiceItem createFromStoreItem(string key) {} 
 };
