@@ -41,7 +41,7 @@ int main()
 	//Our primer to kick off the main event loop
 	string action = "add";
 	while (true) {
-		insertValue("What action do you want to take? add, print, set-data or exit: ", action);
+		insertValue("What action do you want to take? add, clear, print, set-data or exit: ", action);
 
 		if (action == "add")
 		{
