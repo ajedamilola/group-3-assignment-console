@@ -87,7 +87,7 @@ int main()
 			exit(1);
 		}
 		else {
-			print("Unknown command: The available command includes: add, print, set-data, exit");
+			print("Unknown command: The available command includes: add, clear, print, set-data and exit");
 		}
 	}
 
