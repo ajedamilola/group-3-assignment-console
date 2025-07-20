@@ -1,141 +1,96 @@
 ﻿// group-6-assignment-console.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include "Shop.h"
-#include "Item.h"
-#include <vector>
-#include <limits> 
-#include <cstdlib>
+#include "Database.h"
+#include "Helpers.h"
+#include<iostream>
+#include<vector>
+#include<string>
+
 
 using namespace std;
 
-//Insert value is a overloaded function thwse are helper functions 
-void insertValue(string message, string& value, bool succeedsNumericValue = false) {
-	cout << message;
-	if (succeedsNumericValue) {
-		cin.ignore(numeric_limits<streamsize>::max(), '\n');
-	}
-	getline(cin, value);
-}
-void insertValue(string message, float& value) {
-	cout << message;
-	cin >> value;
-}
-void insertValue(string message, int& value) {
-	cout << message;
-	cin >> value;
-}
-
-void print(string message) {
-	cout << message << "\n";
-}
-void printReceipt(const Shop& shop, const vector<InvoiceItem>& items) {
-	//Clearing the console. but OS agnostic
-#ifdef _WIN32
-	system("cls");
-#else
-	system("clear");
-#endif
-
-	system("cls");
-	cout << "======================= RECEIPT =======================\n";
-	cout << "=================" << shop.name << "================\n";
-	cout << shop.address << "\n";
-	cout << "Call us on: " << shop.phone << "\n";
-	cout << "=============================================\n";
-
-	float total = 0;
-	for (int i = 0; i < items.size(); ++i) {
-		const InvoiceItem& item = items[i];
-		float itemTotal = item.price * item.getQty();
-
-		cout << i + 1 << ". " << item.name;
-		if (!item.description.empty()) {
-			cout << " (" << item.description << ")";
-		}
-		cout << "\n";
-		cout << "   Price: #" << item.price << " x " << item.getQty() << " = #" << itemTotal << "\n";
-
-		total += itemTotal;
-	}
-
-	cout << "=============================================\n";
-	cout << "TOTAL: #" << total << "\n";
-	cout << "=============================================\n";
-	cout << "     Thank you for shopping with us!\n";
-	cout << "=============================================\n";
-
-	//prevents the console window from closing
-	string buffer;
-	cin >> buffer;
-}
+bool Shop::recordExist = false;
+sqlite3* Shop::db;
+Shop Shop::dbShop;
 
 int main()
 {
-	//creating our shop
-	Shop shop = Shop();
 
-	print("===============Welcome To our Reciept Generator==============");
-	print("We will start with getting the store details");
-
-	//Getting the store details from the user
-	string storename,address,phone;
-	insertValue("Type in the store name: ",storename);
-	insertValue("Type in Store address: ", address);
-	insertValue("Type in Phone Number: ", phone);
-
-	if (storename.empty()) {
-		print("========Error!: Incomplete details Please Kindly Fill in all required details to proceed=========\n");
-		quick_exit(1);
+	//Initialize Our SQL database for persistence
+	if (!initDatabase()) {
+		cerr << "Unable to initialize application database exiting";
+		return 1;
 	}
 
-	//Saving it to our shop details
-	shop.setDetails(storename, address, phone);
+	//creating our shop
+	Shop shop = Shop(true);
+
+	print("===============Welcome To our Reciept Generator==============");
+	if (shop.name.empty()) {
+		//means that the shop details is not in the DB
+		collectShopDetails(shop);
+	}
+	else {
+		print("Shop Details retrieved from database");
+	}
 
 	//Our items vector this case we are using a 1D vector (dynamic array)
 	vector<InvoiceItem> items = {};
 
 	//Our primer to kick off the main event loop
 	string action = "add";
-	insertValue("\n\nWhat action do you want to take? add, print or exit: ", action);
+	while (true) {
+		insertValue("What action do you want to take? add, print, set-data or exit: ", action);
 
-	while (action=="add")
-	{
-		//initialize our buffer variables
-		string name, descrption;
-		float price;
-		int qty;
+		if (action == "add")
+		{
+			//initialize our buffer variables
+			string name, descrption;
+			float price;
+			int qty;
 
-		//Colection of data from the stdin
-		print("\n=====Adding A new Store Item=====");
-		insertValue("What is the name of the current product: ", name);
-		insertValue("How much does it cost? ", price);
-		insertValue("How many is the customer buying? ", qty);
-		insertValue("Extra notes(optional): ", descrption, true);
+			//Colection of data from the stdin
+			print("\n=====Adding A new Store Item=====");
+			insertValue("What is the name of the current product: ", name);
+			insertValue("How much does it cost? ", price);
+			insertValue("How many is the customer buying? ", qty);
+			insertValue("Extra notes(optional): ", descrption, true);
 
-		if (name.empty() || price == NULL || qty == NULL) {
-			print("======Error: Incomplete details Please Kindly Fill in all required details to proceed======\n");
-			continue;
+			if (name.empty() || price == NULL || qty == NULL) {
+				print("======Error: Incomplete details Please Kindly Fill in all required details to proceed======\n");
+				continue;
+			}
+
+			//Creating the object and assigning properties
+			InvoiceItem newItem = InvoiceItem();
+			newItem.name = name;
+			newItem.price = price;
+			newItem.description = descrption;
+			newItem.setQty(qty);
+
+			// inserting into our list
+			items.push_back(newItem);
 		}
-
-		//Creating the object and assigning properties
-		InvoiceItem newItem = InvoiceItem();
-		newItem.name = name;
-		newItem.price = price;
-		newItem.description = descrption;
-		newItem.setQty(qty);
-
-		// inserting into our list
-		items.push_back(newItem);
-
-		//Asking for the next course of action and possibly restart the loop
-		insertValue("\nWhat action do you want to take? add, print or exit: ", action);
+		else if (action == "print") {
+			printReceipt(shop, items);
+		}
+		else if (action == "set-data") {
+			collectShopDetails(shop);
+		}
+		else if (action == "clear") {
+			items.clear();
+			print("=====Items cleared successfully=====");
+		}
+		else if (action=="exit") {
+			print("Thank you and Good Bye!");
+			exit(1);
+		}
+		else {
+			print("Unknown command: The available command includes: add, print, set-data, exit");
+		}
 	}
 
-	if (action == "print") {
-		printReceipt(shop, items);
-	}
 
 
 }
