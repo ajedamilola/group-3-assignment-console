@@ -1,6 +1,6 @@
-# 🧾 Group 6 - Console Invoice Generator (C++)
+# 🧾 Group 3 - Console Invoice Generator (C++)
 
-A simple console-based invoice generator built in C++ as part of Group 6's programming assignment. It simulates basic inventory and invoice operations using object-oriented programming principles.
+A simple console-based invoice generator built in C++ as part of Group 3's programming assignment. It simulates basic inventory and invoice operations using object-oriented programming principles.
 
 ---
 
@@ -37,12 +37,12 @@ This project allows users to:
 ## 📁 Folder Structure
 
 ```bash
-group-6-assignment-console/
-├── group-6-assignment-console.cpp       # Main logic (testing invoice + shop)
+group-3-assignment-console/
+├── group-3-assignment-console.cpp       # Main logic (testing invoice + shop)
 ├── Item.h                               # Item, StoreItem, and InvoiceItem classes
 ├── Shop.h                               # Shop class (name, address, phone)
-├── group-6-assignment-console.vcxproj   # Visual Studio project file
-├── group-6-assignment-console.sln       # Visual Studio solution file
+├── group-3-assignment-console.vcxproj   # Visual Studio project file
+├── group-3-assignment-console.sln       # Visual Studio solution file
 ├── .gitignore                           # Git ignored files
 └── README.md                            # Project documentation (this file)
 
@@ -64,5 +64,5 @@ Visit the console.cpp file for the main logic and testing on how to run the prog
 #### Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/group-6-assignment-console.git
-cd group-6-assignment-console
+git clone https://github.com/your-username/group-3-assignment-console.git
+cd group-3-assignment-console
