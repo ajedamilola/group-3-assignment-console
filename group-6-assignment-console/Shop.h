@@ -43,9 +43,11 @@ public:
 	string phone;
 
 	void setDetails(string newName, string newAddress, string newPhone) {
+		//tenery
 		this->name = newName.empty() ? this->name : newName;
 		this->address = newAddress.empty() ? this->address : newAddress;
 		this->phone = newPhone.empty() ? this->phone : newPhone;
+
 		sqlite3_open("database.db", &db);
 		persistState("storeName", this->name);
 		persistState("storeAddress", this->address);
@@ -60,7 +62,7 @@ public:
 	}
 
 	void setAddress(string newAddress) {
-		this->name = newAddress;
+		this->address = newAddress;
 		persistState("storeAddress", this->address);
 	}
 

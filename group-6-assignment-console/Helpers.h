@@ -16,11 +16,17 @@ void insertValue(string message, string& value, bool succeedsNumericValue = fals
 	}
 	getline(cin, value);
 }
-void insertValue(string message, float& value) {
+void insertValue(string message, float& value, bool succeedsNumericValue = false) {
+	if (succeedsNumericValue) {
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	cout << message;
 	cin >> value;
 }
-void insertValue(string message, int& value) {
+void insertValue(string message, int& value, bool succeedsNumericValue = false) {
+	if (succeedsNumericValue) {
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+	}
 	cout << message;
 	cin >> value;
 }
@@ -70,6 +76,7 @@ void collectShopDetails(Shop& shop) {
 
 	//Getting the store details from the user
 	string storename, address, phone;
+
 	insertValue("Type in the store name: ", storename);
 	insertValue("Type in Store address: ", address);
 	insertValue("Type in Phone Number: ", phone);

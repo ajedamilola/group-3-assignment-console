@@ -1,4 +1,4 @@
-﻿// group-6-assignment-console.cpp : This file contains the 'main' function. Program execution begins and ends there.
+﻿// group-3-assignment-console.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include "Database.h"
@@ -16,17 +16,20 @@ Shop Shop::dbShop;
 
 int main()
 {
-
+	
 	//Initialize Our SQL database for persistence
-	if (!initDatabase()) {
+	bool databaseInitialized = initDatabase();
+
+	if (!databaseInitialized) {
 		cerr << "Unable to initialize application database exiting";
-		return 1;
+		quick_exit(1);
 	}
 
 	//creating our shop
 	Shop shop = Shop(true);
 
 	print("===============Welcome To our Reciept Generator==============");
+
 	if (shop.name.empty()) {
 		//means that the shop details is not in the DB
 		collectShopDetails(shop);
@@ -40,7 +43,7 @@ int main()
 
 	//Our primer to kick off the main event loop
 	string action = "add";
-	while (true) {
+	while (true) {  // Infinite Loop
 		insertValue("What action do you want to take? add, clear, print, set-data or exit: ", action);
 
 		if (action == "add")
@@ -54,7 +57,7 @@ int main()
 			print("\n=====Adding A new Store Item=====");
 			insertValue("What is the name of the current product: ", name);
 			insertValue("How much does it cost? ", price);
-			insertValue("How many is the customer buying? ", qty);
+			insertValue("How many is the customer buying? ", qty, true);
 			insertValue("Extra notes(optional): ", descrption, true);
 
 			if (name.empty() || price == NULL || qty == NULL) {
@@ -90,7 +93,5 @@ int main()
 			print("Unknown command: The available command includes: add, clear, print, set-data and exit");
 		}
 	}
-
-
 
 }

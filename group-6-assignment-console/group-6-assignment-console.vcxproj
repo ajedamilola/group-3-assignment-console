@@ -128,8 +128,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Downloads\sqlite-amalgamation-3500300\sqlite-amalgamation-3500300\sqlite3.c" />
     <ClCompile Include="group-3-assignment-console.cpp" />
+    <ClCompile Include="sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Database.h" />
