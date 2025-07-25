@@ -39,22 +39,22 @@ This is ideal for practicing:
 
 ### Prerequisites
 
-* C++17 or higher compiler (e.g., `g++`, `clang`, or MSVC)
-* SQLite3 development libraries installed
+* Visual Studio 2019 or Later with Desktop development with c++ module installed
 
-### Build Instructions
+### Installation and Building Steps
 
 ```bash
 # Clone this repository
-git clone https://github.com/your-org/receipt-generator.git
-cd receipt-generator
-
-# Compile using g++
-g++ -std=c++17 -lsqlite3 group-6-assignment-console.cpp Database.cpp -o receipt-gen
-
-# Run the program
-./receipt-gen
+git clone https://github.com/your-org/receipt-generator.git](https://github.com/ajedamilola/group-3-assignment-console
 ```
+- Open Visual Studio 2019
+- Select "Open Project or Solution"
+- Navigate to Project folder and select the group-3-assignment-console.sln file
+- After project is open; navigate to "Project"->"Manage Nuget Packages"
+- you should see a message saying "Some packages are missing from this solution, Restore packages online" and a "Restore" button which you will click
+- After successful package restoration you cna now proceed to build and run. simply by clicking run or pressing f5
+
+Note: You only need to restore packages once
 
 
 ## ⚙️ How It Works – Summary
